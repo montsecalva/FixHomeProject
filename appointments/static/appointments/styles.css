@@ -1,0 +1,59 @@
+body {
+    /* Establece una imagen de fondo centrada y fija */
+    background: url('images/hintergrund.jpg') no-repeat center center fixed;
+    /* Escala la imagen de fondo para que cubra toda la pantalla */
+    background-size: cover;
+    font-family: Etna, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.header-image {
+    position: absolute; /* Posiciona la imagen en relación al viewport */
+    top: 10px; /* Margen desde la parte superior */
+    left: 10px; /* Margen desde la izquierda */
+    width: 236px; /* Tamaño fijo para mantener proporciones */
+    height: 236px;
+    border-radius: 8px; /* Opcional: esquinas redondeadas */
+}

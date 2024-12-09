@@ -1,0 +1,26 @@
+{% extends 'base.html' %} <!-- Extiende la plantilla base -->
+
+{% block title %}Log In{% endblock %} <!-- Define el título específico para esta página -->
+
+{% block header %}
+<header>
+    <div class="logo">FixHome</div>
+    <div class="header-title">Welcome</div>
+    <nav>
+        <a href="{% url 'signin' %}" class="btn-nav">Sign In</a> <!-- Botón para ir a Sign In -->
+    </nav>
+</header>
+{% endblock %}
+}
+
+{% block main_content %}
+<main>
+    <h1 class="page-title">Log In</h1> <!-- Cambia el título de la página -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn-futuristic" type="submit">Enter</button> <!-- Aplica el diseño futurista al botón -->
+    </form>
+</main>
+{% endblock %}
+

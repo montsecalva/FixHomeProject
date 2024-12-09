@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Management</title>
+    <link rel="stylesheet" href="{% static 'appointments/styles.css' %}">
+</head>
+<body>
+    <header class="admin-header">
+        <h1>Admin Panel</h1>
+        <nav>
+            <a href="{% url 'logout' %}" class="btn-logout">Log Out</a>
+            <a href="{% url 'home' %}" class="btn-logout">Home</a>
+            <a href="{% url 'create_appointment' %}" class="btn-logout">create-appointment</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Appointment Request</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tenant</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.tenant.username }}</td>
+                    <td>{{ appointment.type }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

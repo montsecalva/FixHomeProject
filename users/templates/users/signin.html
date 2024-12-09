@@ -1,0 +1,24 @@
+{% extends 'base.html' %} <!-- Extiende la plantilla base -->
+
+{% block title %}Sign In{% endblock %} <!-- Título de la página -->
+
+{% block header %}
+<header>
+    <div class="logo">FixHome</div>
+    <div class="header-title">Create an Account</div>
+    <nav>
+        <a href="{% url 'login' %}" class="btn-nav">Log In</a>
+    </nav>
+</header>
+{% endblock %}
+
+{% block main_content %}
+<main>
+    <h1 class="page-title">Sign In</h1> <!-- Título de la página -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Renderiza el formulario -->
+        <button class="btn-futuristic" type="submit">Create Account</button> <!-- Botón estilizado -->
+    </form>
+</main>
+{% endblock %}

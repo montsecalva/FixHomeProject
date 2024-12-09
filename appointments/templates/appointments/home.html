@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Building Management System{% endblock %}
+
+
+{% comment %}{% block main_content %}
+<div>
+    {% if role == 'tenant' %}
+        <h2 class="page-title">Tenant Dashboard</h2>
+        <p class="page-description">Welcome, Tenant! Here you can manage your appointments.</p>
+        <button class="btn-futuristic" onclick="location.href='{% url 'notifications' %}'">Go to my Notifications</button>
+    {% endif %}
+
+    {% if role == 'admin' %}
+        <h2 class="page-title">Admin Dashboard</h2>
+        <p class="page-description">Welcome, Admin! Here you can manage the entire system.</p>
+        <button class="btn-futuristic" onclick="location.href='{% url 'appointment_list' %}'">Go to Appointments</button>
+        <button class="btn-futuristic" onclick="location.href='{% url 'notifications' %}'">Go to my Notifications</button>
+    {% endif %}
+</div>
+{% endblock %}{% endcomment %}

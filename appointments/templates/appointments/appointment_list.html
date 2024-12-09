@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Appointment List - Building Management System{% endblock %}
+
+
+{% block extra_content %}
+    <h2>Appointment List</h2>
+    <ul class="appointment-list">
+        {% for appointment in appointments %}
+            <li class="appointment-item">
+                <span>Type: {{ appointment.repair_type }}</span>
+                <span>Date: {{ appointment.date }}</span>
+                <span>Time: {{ appointment.time }}</span>
+                <span>Status: {{ appointment.status }}</span>
+            </li>
+        {% empty %}
+            <li>No appointments found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
