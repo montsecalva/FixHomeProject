@@ -103,8 +103,6 @@
         <div class="header-title">Welcome to the Building Management System</div>
         <nav>
             {% if role == 'tenant' %}
-            <a href="{% url 'create_appointment' %}">Create Appointment</a>
-                <a href="{% url 'notifications' %}">Go to my Notifications</a>
             {% endif %}
             {% if role == 'admin' %}
             
