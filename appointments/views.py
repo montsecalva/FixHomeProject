@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Appointment, message
 from django.utils.timezone import now
+from .models import User
 from django.contrib.auth import logout
 @login_required
 def home(request):
@@ -76,15 +77,15 @@ def create_message(request):
     if request.user.role != 'tenant':
         return redirect('home')  # Si no es 'tenant', redirige a la página de inicio
 
-    # Si el metodo de la solicitud es POST, guarda el mensaje
+    # Si el método de la solicitud es POST, guarda el mensaje
     if request.method == 'POST':
         content = request.POST.get('content', '')  # Obtiene el contenido del mensaje
         image = request.FILES.get('image', None)# Obtiene la imagen del mensaje si la hay
-        user_id_createdby = request.user.id  # Obtener el ID del usuario autenticado
+        creator_id = request.user.id  # Obtener el ID del usuario autenticado
         # Obtener el usuario por nombre de usuario
-        user = get_object_or_404(User,'admin')
-        user_id = user.id  # Obtener el ID del usuario
-        message.objects.create(content=content, image=image)  # Crea el mensaje en la base de datos
+        user = get_object_or_404(User, username='user')
+        recipient_id = user.id  # Obtener el ID del usuario
+        message.objects.create(content=content, image=image,creator_id=creator_id,recipient_id=recipient_id)  # Crea el mensaje en la base de datos
         return redirect('notifications')  # Redirige al usuario a la página de notificaciones
 
     # Si no es POST, solo muestra el formulario
@@ -103,4 +104,3 @@ def notifications(request):
         'notifications': all_notifications,
     }
     return render(request, 'appointments/notifications.html', context)
-
