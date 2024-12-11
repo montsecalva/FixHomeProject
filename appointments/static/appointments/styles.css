@@ -16,7 +16,7 @@ h1 {
 form {
     max-width: 500px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 50px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -29,7 +29,7 @@ label {
 }
 
 input, select, textarea {
-    width: 100%;
+
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;

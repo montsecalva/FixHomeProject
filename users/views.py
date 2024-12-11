@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .forms import CustomUserCreationForm
+
 @login_required
 def redirect_after_login(request):
     if request.user.role == 'tenant':  # Rol inquilino
@@ -26,10 +28,10 @@ def login_view(request):
 
 def signin_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()  # Crea el usuario
             return redirect('login')  # Redirige al login después de registrarse
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'users/signin.html', {'form': form})

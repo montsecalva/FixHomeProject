@@ -31,3 +31,15 @@ class Appointment(models.Model):
     )
     assigned_professional = models.CharField(max_length=50, blank=True, null=True)
 
+
+class message(models.Model):
+    id = models.BigAutoField(primary_key=True)  # Campo ID autoincremental
+    date = models.DateTimeField(auto_now_add=True)  # Fecha y hora de creación de la notificación
+    content = models.TextField()  # Contenido de la notificación
+    image = models.ImageField(upload_to='message_images/', null=True, blank=True)  # Imagen opcional asociada al mensaje
+    # Cambia el campo 'creator' para que sea null
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tenant', null=True)
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin', null=True)
+
+    def __str__(self):
+        return f"message {self.id} - {self.date} - Created by {self.creator} for {self.recipient}"
