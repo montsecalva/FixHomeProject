@@ -1,31 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Appointment
+from .models import Appointment, message
+from django.utils.timezone import now
 from django.contrib.auth import logout
 @login_required
 def home(request):
-    # Crear un diccionario de contexto que contiene el rol del usuario autenticado
     context = {
-        'role': request.user.role if request.user.is_authenticated else None  # Si el usuario está autenticado, añade su rol al contexto
+        'role': request.user.role if request.user.is_authenticated else None
     }
-    # Renderiza la plantilla 'appointments/home.html' con el contexto proporcionado
     return render(request, 'appointments/home.html', context)
 
-@login_required
-def notifications(request):
-    # Lógica para obtener las notificaciones del usuario
-    notifications = [] # Aquí podrías añadir lógica para obtener las notificaciones
-    context = {
-        'role': request.user.role if request.user.is_authenticated else None,
-        'notifications': notifications
-    }
-
-    return render(request, 'appointments/notifications.html', context)
 
 
 @login_required
 def create_appointment(request):
-    if request.user.role != 'tenant':
+    if request.user.role != 'admin':
         return redirect('home')
 
     if request.method == 'POST':
@@ -40,12 +29,11 @@ def create_appointment(request):
             time=time,
             description=description
         )
-        context = {
+    context = {
             'role': request.user.role if request.user.is_authenticated else None,
         }
 
     return render(request, 'appointments/create_appointment.html', context)
-
 @login_required
 def manage_appointments(request):
     if request.user.role != 'admin':
@@ -60,7 +48,7 @@ def manage_appointments(request):
 
 @login_required
 def appointment_list(request):
-    appointments = Appointment.objects.filter(tenant=request.user)
+    appointments = Appointment.objects.all()
     context = {
         'role': request.user.role if request.user.is_authenticated else None,
         'appointments': appointments
@@ -76,3 +64,43 @@ def logout_view(request):
         logout(request)
         return render(request, 'users/logout.html')
     return redirect('home')
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Appointment, message
+from django.utils.timezone import now
+
+@login_required
+def create_message(request):
+    # Verifica si el usuario tiene el rol 'tenant'
+    if request.user.role != 'tenant':
+        return redirect('home')  # Si no es 'tenant', redirige a la página de inicio
+
+    # Si el metodo de la solicitud es POST, guarda el mensaje
+    if request.method == 'POST':
+        content = request.POST.get('content', '')  # Obtiene el contenido del mensaje
+        image = request.FILES.get('image', None)# Obtiene la imagen del mensaje si la hay
+        user_id_createdby = request.user.id  # Obtener el ID del usuario autenticado
+        # Obtener el usuario por nombre de usuario
+        user = get_object_or_404(User,'admin')
+        user_id = user.id  # Obtener el ID del usuario
+        message.objects.create(content=content, image=image)  # Crea el mensaje en la base de datos
+        return redirect('notifications')  # Redirige al usuario a la página de notificaciones
+
+    # Si no es POST, solo muestra el formulario
+    context = {
+        'role': request.user.role if request.user.is_authenticated else None,  # Pasa el rol del usuario al contexto
+    }
+    return render(request, 'appointments/create_message.html', context)  # Renderiza la plantilla de crear mensaje
+@login_required
+def notifications(request):
+    if request.user.role != 'admin':
+        return redirect('home')  # Redirige si el usuario no es 'admin'
+
+    all_notifications = message.objects.all().order_by('-date')  # Ordena por fecha descendente
+    context = {
+        'role': request.user.role if request.user.is_authenticated else None,
+        'notifications': all_notifications,
+    }
+    return render(request, 'appointments/notifications.html', context)
+

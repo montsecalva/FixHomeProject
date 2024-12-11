@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Notifications{% endblock %}
 
 {% block extra_content %}
+<h1 class="page-title">Notifications</h1>
+<p class="page-description">Here are the latest notifications from tenants:</p>
 <div>
-    <h1 class="page-title">Notifications</h1>
-    <ul>
-        {% for notification in notifications %}
-            <li>{{ notification }}</li>
-        {% empty %}
-            <p>No notifications available.</p>
-        {% endfor %}
-    </ul>
+    {% for notification in notifications %}
+    <div style="border: 1px solid #2c3e50; padding: 15px; margin-bottom: 15px; border-radius: 10px; background-color: #f5f5f5;">
+        <p><strong>Date:</strong> {{ notification.date|date:"d-m-Y H:i" }}</p>
+        <p><strong>Content:</strong> {{ notification.content }}</p>
+        {% if notification.image %}
+        <img src="{{ notification.image.url }}" alt="Attached Image" style="max-width: 100%; height: auto;">
+        {% endif %}
+        <!-- Botones -->
+        <div style="margin-top: 10px;">
+            <a href="{% url 'create_appointment' %}?notification_id={{ notification.id }}" class="btn-futuristic">Create Appointment</a>
+            <a href="#" class="btn-futuristic">Answer</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No notifications yet.</p>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -12,12 +12,48 @@
 </header>
 {% endblock %}
 
-{% block main_content %}
+{% block extra_content %}
 <main>
     <h1 class="page-title">Sign In</h1> <!-- Título de la página -->
-    <form method="post">
+    <form method="post" class="form-container">
         {% csrf_token %}
-        {{ form.as_p }} <!-- Renderiza el formulario -->
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.first_name.label_tag }} {{ form.first_name }}
+            </div>
+            <div class="form-column">
+                {{ form.last_name.label_tag }} {{ form.last_name }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.username.label_tag }} {{ form.username }}
+            </div>
+            <div class="form-column">
+                {{ form.email.label_tag }} {{ form.email }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.password1.label_tag }} {{ form.password1 }}
+            </div>
+            <div class="form-column">
+                {{ form.password2.label_tag }} {{ form.password2 }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.phone_number.label_tag }} {{ form.phone_number }}
+            </div>
+            <div class="form-column">
+                {{ form.address.label_tag }} {{ form.address }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.role.label_tag }} {{ form.role }}
+            </div>
+        </div>
         <button class="btn-futuristic" type="submit">Create Account</button> <!-- Botón estilizado -->
     </form>
 </main>
