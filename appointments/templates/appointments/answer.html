@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block extra_content %}
+<h1 class="page-title">Answer Message</h1>
+<p class="page-description">Respond to the tenant's message:</p>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-container">
+        <label for="content">Your Answer:</label>
+        <textarea id="content" name="content" rows="4" required></textarea>
+
+        <label for="image">Attach an Image (Optional):</label>
+        <input type="file" id="image" name="image">
+
+        <button type="submit" class="btn-futuristic">Send Answer</button>
+    </div>
+</form>
+
+<a href="{% url 'notifications' %}" class="btn-futuristic" style="margin-top: 10px;">Back to Notifications</a>
+{% endblock %}
