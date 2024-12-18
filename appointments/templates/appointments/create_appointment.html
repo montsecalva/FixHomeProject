@@ -5,10 +5,19 @@
 {% block extra_content %}
 <h1 class="page-title">Create a Repair Appointment</h1>
 <p class="page-description">Fill out the form below to schedule a repair appointment:</p>
+
 <form method="post" class="form-container">
     {% csrf_token %}
+    <label for="tenant_username">Select Tenant</label>
+    <select id="tenant_username" name="tenant_username" required>
+        <option value="" disabled selected>Choose a tenant</option>
+        {% for tenant in tenants %}
+            <option value="{{ tenant.username }}">{{ tenant.username }}</option>
+        {% endfor %}
+    </select>
+
     <label for="repair_type">Type of Repair</label>
-    <select id="repair_type" name="repair_type">
+    <select id="repair_type" name="repair_type" required>
         <option value="plumbing">Plumbing</option>
         <option value="electricity">Electricity</option>
         <option value="carpentry">Carpentry</option>
@@ -16,16 +25,17 @@
     </select>
 
     <label for="date">Date</label>
-    <input type="date" id="date" name="date">
+    <input type="date" id="date" name="date" required>
 
     <label for="time">Time</label>
-    <input type="time" id="time" name="time">
+    <input type="time" id="time" name="time" required>
 
     <label for="description">Description</label>
-    <textarea id="description" name="description" rows="4"></textarea>
+    <textarea id="description" name="description" rows="4" required></textarea>
 
     <button type="submit" class="btn-futuristic">Submit</button>
 </form>
 {% endblock %}
+
 
 
