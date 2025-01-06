@@ -1,9 +1,10 @@
-mport render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Appointment, message, User
 from django.utils.timezone import now
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt  # Agrega esto para desactivar CSRF temporalmente
+
 
 
 @login_required
@@ -18,6 +19,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Appointment, message, User
 
+from datetime import timedelta  # Importa timedelta
+
+from datetime import timedelta  # Importa timedelta
+
+from datetime import timedelta  # Importa timedelta
+
 @login_required
 def create_appointment(request):
     # Solo los usuarios con rol de admin pueden acceder
@@ -29,10 +36,23 @@ def create_appointment(request):
         date = request.POST['date']
         time = request.POST['time']
         description = request.POST['description']
-        tenant_username = request.POST.get('tenant_username')
+        estimated_duration = request.POST.get('estimated_duration')  # Nuevo campo
 
-        # Validar que el usuario tenant exista
-        tenant = get_object_or_404(User, username=tenant_username, role='tenant')
+        # Convertir estimated_duration (str) a timedelta
+        try:
+            hours, minutes, seconds = map(int, estimated_duration.split(':'))
+            estimated_duration_timedelta = timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        except ValueError:
+            # Manejar el caso en que el formato sea incorrecto
+            return render(request, 'appointments/create_appointment.html', {
+                'error': 'Invalid duration format. Please use HH:MM:SS.',
+                'role': request.user.role if request.user.is_authenticated else None,
+            })
+
+        # Obtener el tenant asociado al mensaje (por ejemplo, usando un parámetro en la URL)
+        notification_id = request.GET.get('notification_id')
+        notification = get_object_or_404(message, id=notification_id)
+        tenant = notification.creator  # El tenant es el creador del mensaje
 
         # Crear la cita como pendiente
         Appointment.objects.create(
@@ -42,6 +62,7 @@ def create_appointment(request):
             date=date,
             time=time,
             description=description,
+            estimated_duration=estimated_duration_timedelta,  # Guardar la duración como timedelta
             status='pending'
         )
 
@@ -56,12 +77,8 @@ def create_appointment(request):
 
     context = {
         'role': request.user.role if request.user.is_authenticated else None,
-        'tenants': User.objects.filter(role='tenant'),  # Para listar tenants en la plantilla
     }
     return render(request, 'appointments/create_appointment.html', context)
-
-
-
 @login_required
 def manage_appointments(request):
     if request.user.role != 'admin':
@@ -77,7 +94,8 @@ def manage_appointments(request):
 
 @login_required
 def appointment_list(request):
-    appointments = Appointment.objects.all()
+    # Filtrar solo las citas con estado "accepted"
+    appointments = Appointment.objects.filter(status='accepted')
     context = {
         'role': request.user.role if request.user.is_authenticated else None,
         'appointments': appointments
@@ -193,18 +211,70 @@ def accept_appointment(request, appointment_id):
     return redirect('notifications')
 
 @login_required
+def notifications_view(request):
+    # Verificar el rol del usuario
+    if request.user.role == 'admin':
+        # Notificaciones activas y cerradas para el admin
+        notifications = message.objects.filter(recipient=request.user, is_active=True, is_closed=False).order_by('-date')
+        closed_notifications = message.objects.filter(recipient=request.user, is_active=True, is_closed=True).order_by('-date')
+        pending_appointments = None  # Si necesitas manejar citas pendientes para el admin
+    elif request.user.role == 'tenant':
+        # Notificaciones activas y cerradas para el tenant
+        notifications = message.objects.filter(recipient=request.user, is_active=True, is_closed=False).order_by('-date')
+        closed_notifications = message.objects.filter(recipient=request.user, is_active=True, is_closed=True).order_by('-date')
+        pending_appointments = Appointment.objects.filter(tenant=request.user, status='pending')  # Citas pendientes para el tenant
+    else:
+        # Si el usuario no tiene un rol válido, redirigir al home
+        return redirect('home')
+
+    # Contexto para pasar a la plantilla
+    context = {
+        'role': request.user.role if request.user.is_authenticated else None,  # Rol del usuario
+        'notifications': notifications,  # Notificaciones activas
+        'closed_notifications': closed_notifications,  # Notificaciones cerradas (historial)
+        'pending_appointments': pending_appointments,  # Citas pendientes (si aplica)
+    }
+    return render(request, 'appointments/notifications.html', context)
+@login_required
+def close_notification(request, notification_id):
+    # Obtener la notificación específica
+    notification = get_object_or_404(message, id=notification_id, recipient=request.user)
+    # Marcar la notificación como cerrada
+    notification.is_closed = True
+    notification.save()
+    # Redirigir a la página de notificaciones
+    return redirect('notifications')
+
+@login_required
+def history_view(request):
+    closed_notifications = message.objects.filter(recipient=request.user, is_closed=True).order_by('-date')
+    context = {
+        'role': request.user.role if request.user.is_authenticated else None,  # Asegúrate de incluir el rol
+        'closed_notifications': closed_notifications,
+    }
+    return render(request, 'history.html', context)
+
+@login_required
 def reject_appointment(request, appointment_id):
     if request.user.role != 'tenant':
         return redirect('home')
 
-    # Eliminar la cita y notificar al administrador
+    # Cambiar el estado de la cita a 'rejected'
     appointment = get_object_or_404(Appointment, id=appointment_id, tenant=request.user)
+    appointment.status = 'rejected'
+    appointment.save()
+
+    # Crear notificación para el administrador
     message.objects.create(
         content=f'El usuario {request.user.username} ha rechazado la cita: {appointment.repair_type}.',
         creator_id=request.user.id,
         recipient_id=appointment.admin.id
     )
-    appointment.delete()
 
     return redirect('notifications')
-
+@login_required
+def information_view(request):
+    context = {
+        'role': request.user.role if request.user.is_authenticated else None
+    }
+    return render(request, 'appointments/information.html', context)

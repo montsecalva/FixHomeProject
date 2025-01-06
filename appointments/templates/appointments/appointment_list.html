@@ -2,20 +2,42 @@
 
 {% block title %}Appointment List - Building Management System{% endblock %}
 
-
 {% block extra_content %}
-    <h2>Appointment List</h2>
-    <ul class="appointment-list">
-        {% for appointment in appointments %}
-            <li class="appointment-item">
-                <span>Type: {{ appointment.repair_type }}</span>
-                <span>Date: {{ appointment.date }}</span>
-                <span>Time: {{ appointment.time }}</span>
-                <span>Status: {{ appointment.status }}</span>
-            </li>
-        {% empty %}
-            <li>No appointments found.</li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+    <h2 class="page-title">Appointment List</h2>
+    <p class="page-description">Here is the list of all appointments:</p>
 
+    <div class="appointment-container">
+        {% if appointments %}
+        <table class="appointment-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Estimated Duration</th> <!-- Nueva columna -->
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.repair_type }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td>
+                        {% if appointment.estimated_duration %}
+                            {{ appointment.estimated_duration }}
+                        {% else %}
+                            Not specified
+                        {% endif %}
+                    </td>
+                    <td>{{ appointment.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-appointments">No appointments found.</p>
+        {% endif %}
+    </div>
+{% endblock %}
