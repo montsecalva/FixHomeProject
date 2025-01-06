@@ -1,59 +1,307 @@
 body {
-    /* Establece una imagen de fondo centrada y fija */
     background: url('images/hintergrund.jpg') no-repeat center center fixed;
-    /* Escala la imagen de fondo para que cubra toda la pantalla */
     background-size: cover;
     font-family: Etna, sans-serif;
     margin: 0;
     padding: 0;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-form {
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 50px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #2c3e50;
+    /* Gris oscuro */
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
+/* Estilo para el logo */
+.logo {
+    font-family: 'Etna Sans Serif', Arial, sans-serif;
+    font-size: 1.5em;
     font-weight: bold;
 }
 
-input, select, textarea {
-
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+/* Título principal */
+.header-title {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
 }
 
-button {
-    background-color: #007BFF;
-    color: #fff;
-    padding: 10px 15px;
+/* Enlaces de navegación */
+nav a {
+    font-size: 1em;
+    text-decoration: none;
+    color: white;
+    padding: 5px 15px;
+    border: 2px solid white;
+    border-radius: 20px;
+    margin-left: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+    background-color: white;
+    color: #2c3e50;
+}
+
+/* Contenedor principal */
+.main-content {
+    flex: 1; /* Hace que el contenido principal ocupe el espacio restante */
+    padding: 20px;
+}
+
+/* Estilo para el contenido central */
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 50px;
+    text-align: center;
+}
+
+.page-title {
+    margin-top: 15px;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.page-description {
+    font-size: 1.2em;
+    font-weight: 400;
+    margin-bottom: 30px;
+    color: black;
+}
+
+/* Botón futurista centrado */
+.btn-futuristic {
+    font-size: 1em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    margin: 10px;
+    background: linear-gradient(90deg, #0a9396, #005f73);
+    /* Colores acorde */
     border: none;
-    border-radius: 4px;
+    border-radius: 30px;
     cursor: pointer;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
 }
 
-button:hover {
-    background-color: #0056b3;
+.btn-futuristic:hover {
+    background: linear-gradient(90deg, #94d2bd, #005f73);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
-.header-image {
-    position: absolute; /* Posiciona la imagen en relación al viewport */
-    top: 10px; /* Margen desde la parte superior */
-    left: 10px; /* Margen desde la izquierda */
-    width: 236px; /* Tamaño fijo para mantener proporciones */
-    height: 236px;
-    border-radius: 8px; /* Opcional: esquinas redondeadas */
+/* Contenedor principal para la lista de citas */
+.appointment-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para la tabla de citas */
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 1em;
+    text-align: left;
+}
+
+.appointment-table th,
+.appointment-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.appointment-table th {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.appointment-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.appointment-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo para el estado */
+.status {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Mensaje cuando no hay citas */
+.no-appointments {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+/* Enlace para volver a la página principal */
+.home-link {
+    display: block;
+    text-align: center;
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.home-link:hover {
+    text-decoration: underline;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    padding-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-container p {
+    margin-bottom: 15px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Contenedor principal del formulario de inicio de sesión */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 60px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Pie de página */
+footer {
+    background-color: rgba(10, 73, 96, 0.9); /* Azul oscuro translúcido */
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    width: 100%;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.3);
+    position: relative; /* Cambiar de fixed a relative */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.footer-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #94d2bd; /* Verde claro */
+}
+
+footer a {
+    color: #94d2bd;
+    text-decoration: none;
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Sección de historia */
+.history-section {
+    background: rgba(255, 255, 255, 0.8); /* Fondo translúcido */
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+}
+
+.history-section h2 {
+    font-size: 2em;
+    color: #0a9396; /* Azul verdoso */
+    margin-bottom: 20px;
+}
+
+.history-section p {
+    font-size: 1.2em;
+    color: #34495e;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+/* Sección de información */
+.information-section {
+    background: rgba(255, 255, 255, 0.8); /* Fondo translúcido */
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+}
+
+.information-section h1 {
+    font-size: 2.5em;
+    color: #0a9396; /* Azul verdoso */
+    margin-bottom: 20px;
+}
+
+.information-section p {
+    font-size: 1.2em;
+    color: #34495e;
+    line-height: 1.8;
+    margin-bottom: 15px;
 }

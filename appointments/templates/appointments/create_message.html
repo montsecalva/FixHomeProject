@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
 {% block extra_content %}
- <h1 class="page-title">Create a Message</h1>
+<div class="form-container">
+    <h1 class="page-title">Create a Message</h1>
     <p class="page-description">Write your notification and upload an image if necessary.</p>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <textarea name="content" rows="7" placeholder="Write your message here..." style="width: 80%; padding: 10px; margin-bottom: 10px;"></textarea>
-        <br>
-        <input type="file" name="image" accept="image/*" style="margin-bottom: 10px;">
-        <!-- Campo oculto para el creador del mensaje -->
-        <input type="hidden" name="created_by" value="{{ request.user.id }}">
-        <br>
+        <div class="form-group">
+            <label for="content">Message</label>
+            <textarea id="content" name="content" rows="5" placeholder="Write your message here..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">Attach an Image (optional)</label>
+            <input type="file" id="image" name="image" accept="image/*">
+        </div>
         <button type="submit" class="btn-futuristic">Send</button>
     </form>
+</div>
 {% endblock %}

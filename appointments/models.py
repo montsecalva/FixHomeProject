@@ -51,6 +51,7 @@ class Appointment(models.Model):
     )
     assigned_professional = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    estimated_duration = models.DurationField(null=True, blank=True)
 
     def __str__(self):
         return f"Appointment {self.id} - {self.repair_type} for {self.tenant.username}"
@@ -61,7 +62,7 @@ class message(models.Model):
     id = models.BigAutoField(primary_key=True)  # ID autoincremental
     date = models.DateTimeField(auto_now_add=True)  # Fecha y hora de creación
     content = models.TextField()  # Contenido del mensaje
-    image = models.ImageField(upload_to='message_images/', null=True, blank=True)  # Imagen opcional
+    image = models.ImageField(upload_to='', null=True, blank=True)  # Imagen opcional
     creator = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -76,6 +77,7 @@ class message(models.Model):
 
     )
     is_active = models.BooleanField(default=True)
+    is_closed = models.BooleanField(default=False)  # Nuevo campo para identificar notificaciones cerradas
 
     def __str__(self):
         return f"Message {self.id} - Created by {self.creator} for {self.recipient}"

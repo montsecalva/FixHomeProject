@@ -11,16 +11,21 @@
     </nav>
 </header>
 {% endblock %}
-}
 
 {% block extra_content %}
 <main>
-    <h1 class="page-title">Log In</h1> <!-- Cambia el título de la página -->
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn-futuristic" type="submit">Enter</button> <!-- Aplica el diseño futurista al botón -->
-    </form>
+    <div class="form-container">
+        <h1 class="page-title">Log In</h1> <!-- Cambia el título de la página -->
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn-futuristic" type="submit">Enter</button> <!-- Aplica el diseño futurista al botón -->
+        </form>
+        <p class="login-footer">
+            Don't have an account?
+            <a href="{% url 'signin' %}" class="btn-signup">Sign Up</a>
+        </p>
+    </div>
 </main>
 {% endblock %}
 
