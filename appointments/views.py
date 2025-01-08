@@ -203,7 +203,7 @@ def accept_appointment(request, appointment_id):
 
     # Crear notificación para el administrador
     message.objects.create(
-        content=f'El usuario {request.user.username} ha aceptado la cita: {appointment.repair_type}.',
+        content=f'El usuario {request.user.username} has accepted the appointment. {appointment.repair_type}.',
         creator_id=request.user.id,
         recipient_id=appointment.admin.id
     )
@@ -266,7 +266,7 @@ def reject_appointment(request, appointment_id):
 
     # Crear notificación para el administrador
     message.objects.create(
-        content=f'El usuario {request.user.username} ha rechazado la cita: {appointment.repair_type}.',
+        content=f'El usuario {request.user.username} has declined the appointment. {appointment.repair_type}.',
         creator_id=request.user.id,
         recipient_id=appointment.admin.id
     )
