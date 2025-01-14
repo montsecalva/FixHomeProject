@@ -34,10 +34,10 @@
                     <a href="{% url 'create_appointment' %}?notification_id={{ notification.id }}" class="btn-futuristic">Create Appointment</a>
                     <a href="{% url 'answer' notification.id %}" class="btn-futuristic">Answer</a>                    
                 {% endif %}
-                {% if role == 'tenant' %}
+               
                     {% comment %} <a href="{% url 'answer' notification.id %}" class="btn-futuristic">Close</a> {% endcomment %}
                     <a href="{% url 'close_notification' notification.id %}" class="btn-futuristic">Close</a>
-                {% endif %}                
+                               
             </div>
         </div>
         {% empty %}

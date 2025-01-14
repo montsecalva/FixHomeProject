@@ -68,7 +68,7 @@ def create_appointment(request):
 
         # Crear notificación para el tenant
         message.objects.create(
-            content=f'Nueva cita pendiente: {repair_type} el {date} a las {time}.',
+            content=f'Pending appointment: {repair_type} at {date} at {time}.',
             creator_id=request.user.id,
             recipient_id=tenant.id
         )
@@ -203,7 +203,7 @@ def accept_appointment(request, appointment_id):
 
     # Crear notificación para el administrador
     message.objects.create(
-        content=f'El usuario {request.user.username} ha aceptado la cita: {appointment.repair_type}.',
+        content=f'The user {request.user.username} has accepted the appointment. {appointment.repair_type}.',
         creator_id=request.user.id,
         recipient_id=appointment.admin.id
     )
@@ -266,7 +266,7 @@ def reject_appointment(request, appointment_id):
 
     # Crear notificación para el administrador
     message.objects.create(
-        content=f'El usuario {request.user.username} ha rechazado la cita: {appointment.repair_type}.',
+        content=f'The user {request.user.username} has declined the appointment. {appointment.repair_type}.',
         creator_id=request.user.id,
         recipient_id=appointment.admin.id
     )
